@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Property;
 use App\Models\User;
+use App\Models\Review;
 use App\Http\Requests\StorePropertyRequest;
 use App\Http\Requests\UpdatePropertyRequest;
 use Illuminate\Support\Facades\Auth;
@@ -57,7 +58,7 @@ class PropertyController extends Controller
 
 
 
- return view('properties.index', ['properties' => $properties->paginate(3)]);
+ return view('properties.index', ['properties' => $properties->paginate(8)]);
     }
 
 
@@ -131,7 +132,7 @@ if(Auth::user()->is_owner)
              if(Auth::user()->is_owner)
         {
 
-            return view('properties.propertiesByOwner',['properties'=>request()->user()->properties()->paginate(1)]);
+            return view('properties.propertiesByOwner',['properties'=>request()->user()->properties()->paginate(2)]);
 
         }
         else {return view('properties.accessDenied');}}
@@ -144,8 +145,11 @@ if(Auth::user()->is_owner)
     public function show(Property $property)
     {
         //
+        $reviews=Review::query()
+        ->where('property_id','=',$property->id)->get();
 
-        return view('properties.show',compact('property'));
+
+        return view('properties.show',compact('property','reviews'));
     }
 
     /**
@@ -157,7 +161,11 @@ if(Auth::user()->is_owner)
     public function edit(Property $property)
     {
         //
-        return view('properties.edit',compact('property'));
+        if(Auth::user()->is_owner)
+        {return view('properties.edit');}
+        else {return view('properties.accessDenied');}
+
+
     }
 
     /**
@@ -170,7 +178,28 @@ if(Auth::user()->is_owner)
     public function update(UpdatePropertyRequest $request, Property $property)
     {
         //
-        $property=Property::findOrFail(\request()->id);
+        {
+
+
+            $property->name=$request->name;
+            $property->description=$request->description;
+            $property->address=$request->address;
+            $property->type=$request->type;
+
+            $property->price=$request->price;
+
+
+            $property->area=$request->area;
+            $property->image= $request->image->store('upload','public');
+            $property->user_id=$request->user()->id;
+            $property->startDate=$request->startDate;
+            $property->endDate=$request->endDate;
+
+            $property->save();
+        return back();
+
+            }
+
 
     }
 

@@ -10,12 +10,21 @@
     <p class="card-text">{{$property->description}}</p>
     <a href="{{route('properties.show'
 ,['property'=>$property->id])}}"   class="btn btn-primary">Details</a>
-<br><br><br>
-<form method="post" action="{{ route('properties.destroy',['property'=>$property->id]) }}">
+<br><br>
+
+        <form method="post" action="{{ route('properties.destroy',['property'=>$property->id]) }}">
     @method("delete")
     @csrf
     <button class="btn btn-danger">Delete</button>
     </form>
+       
+        <form method="get" action="{{ route('properties.edit',['property'=>$property->id]) }}">
+<br>
+    @csrf
+    <button class="btn btn-info">Update</button>
+    </form>
+
+
   </div>
 </div>
 

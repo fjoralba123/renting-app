@@ -37,13 +37,13 @@
 </div> -->
 <div class="d-flex align-items-center">
 <div class="d-inline-block">
-<label >Min Price :&nbsp; </label>
-  <input type="number" class="custom-select"  name="minprice" min="0">
+<label >Lowest Price :&nbsp; </label>
+  <input type="number" class="custom-select"  name="minprice" min="0" placeholder="Type lowest price...">
 
 </div>
 <div class="d-inline-block">
-<label >Max Price :&nbsp; </label>
-  <input type="number" class="custom-select"  name="maxprice" min="0">
+<label >Highest Price :&nbsp; </label>
+  <input type="number" class="custom-select"  name="maxprice" min="0" placeholder="Type highest price...">
 
 </div>
     </div>
@@ -62,8 +62,8 @@ Filter by location:<input type="text" name="address" placeholder="Location">
 <div class="card col-md-3" style="width: 18rem;">
   <img class="card-img-top" src="{{asset('storage/'.$property->image)}}" alt="Image here">
   <div class="card-body">
-    <h5 class="card-title">{{$property->name}}</h5>
-    <p class="card-text">{{$property->description}}</p>
+    <h6 class="card-title"><b>Name:</b>{{$property->name}}</h6>
+    <p class="card-text"><b>Description:</b>{{$property->description}}</p>
     <a href="{{route('properties.show'
 ,['property'=>$property->id])}}"   class="btn btn-primary">Details</a>
   </div>

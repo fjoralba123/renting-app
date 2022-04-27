@@ -13,7 +13,7 @@ class UpdatePropertyRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,19 @@ class UpdatePropertyRequest extends FormRequest
     public function rules()
     {
         return [
-            //
-        ];
+
+
+            'name'=>['required','min:5'],
+            'description'=>['required','min:5'],
+            'address'=>['required' ,'min:5'],
+            'type'=>['required','min:5'],
+            'price'=>['required','numeric'],
+            'area'=>['required','numeric'],
+            'image'=>['required','file','image','max:10000'],
+            'startDate'=>['required','required'],
+            'endDate'=>['required','required'],
+
+        //
+    ];
     }
 }

@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Property;
-class PropertySeeder extends Seeder
+
+class DevelopmentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +13,6 @@ class PropertySeeder extends Seeder
      */
     public function run()
     {
-        //
-        Property::factory(100)->create();
+        $this->call(PropertySeeder::class);
     }
 }

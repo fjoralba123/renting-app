@@ -46,4 +46,8 @@ class User extends Authenticatable
     public function properties(){
         return $this->hasMany(Property::class);
     }
+
+    public static function getNameById($id){
+        return User::where('id', $id)->pluck('name')->first();
+    }
 }
