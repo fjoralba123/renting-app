@@ -9,21 +9,21 @@
     <h5 class="card-title">{{$property->name}}</h5>
     <p class="card-text">{{$property->description}}</p>
     <a href="{{route('properties.show'
-,['property'=>$property->id])}}"   class="btn btn-primary">Details</a>
+,['property'=>$property->id])}}"   class="btn btn-outline-primary">Details >></a>
 <br><br>
 
-        <form method="post" action="{{ route('properties.destroy',['property'=>$property->id]) }}">
+
+<form method="post" action="{{ route('properties.destroy',['property'=>$property->id]) }}"  >
     @method("delete")
     @csrf
-    <button class="btn btn-danger">Delete</button>
-    </form>
-       
-        <form method="get" action="{{ route('properties.edit',['property'=>$property->id]) }}">
-<br>
-    @csrf
-    <button class="btn btn-info">Update</button>
+    <button class="btn btn-danger">Delete property</button>
     </form>
 
+        <form method="get" action="{{ route('properties.edit',['property'=>$property->id]) }}"  >
+<br>
+    @csrf
+    <button class="btn btn-primary">Update property</button>
+    </form>
 
   </div>
 </div>
@@ -31,7 +31,9 @@
 
 @endforeach
 </div>
-
+<br>
+<div  class="text-right">
 {{ $properties->links() }}
+    </div>
 
     @endsection

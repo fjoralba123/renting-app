@@ -37,5 +37,10 @@ Route::post('properties', [PropertyController::class, 'store'])->name('propertie
 
 Route::get('properties', [PropertyController::class, 'index'])->name('properties.index');
 Route::get('properties/{property}', [PropertyController::class, 'show'])->name('properties.show');
+Route::get('properties/reservation/{property}', [PropertyController::class, 'makeReservation'])->name('properties.reservation');
+Route::post('properties/{property}', [PropertyController::class, 'book'])->name('properties.book');
+
+
+
 
 

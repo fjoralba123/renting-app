@@ -12,7 +12,7 @@
 <div class="d-flex align-items-center">
 <div class="d-inline-block">
 <label >Start Date:&nbsp; </label>
-  <input type="date" class="custom-select" id="startDate" name="startDate">
+  <input type="date" class="custom-select" id="startDate" name="startDate" value="{{Request::get('startDate')}}">
 
 
 
@@ -20,7 +20,7 @@
 
 <div class="d-inline-block">
 <label >End Date: &nbsp; </label>
-  <input type="date" class="custom-select" id="endDate" name="endDate">
+  <input type="date" class="custom-select" id="endDate" name="endDate" value="{{Request::get('endDate')}}">
 
 
     </div>
@@ -38,18 +38,18 @@
 <div class="d-flex align-items-center">
 <div class="d-inline-block">
 <label >Lowest Price :&nbsp; </label>
-  <input type="number" class="custom-select"  name="minprice" min="0" placeholder="Type lowest price...">
+  <input type="number" class="custom-select"  name="minprice"  min="0" value="{{Request::get('minprice')}}" placeholder="Type lowest price..." >
 
 </div>
 <div class="d-inline-block">
 <label >Highest Price :&nbsp; </label>
-  <input type="number" class="custom-select"  name="maxprice" min="0" placeholder="Type highest price...">
+  <input type="number" class="custom-select"  name="maxprice" value="{{Request::get('maxprice')}}" min="0" placeholder="Type highest price...">
 
 </div>
     </div>
     <br>
 
-Filter by location:<input type="text" name="address" placeholder="Location">
+Filter by location:<input type="text" name="address"  value="{{Request::get('address')}}" placeholder="Location">
 <button type="submit" class="btn btn-primary" name="search" >Search</button>
 <br>
 <br>
@@ -65,7 +65,9 @@ Filter by location:<input type="text" name="address" placeholder="Location">
     <h6 class="card-title"><b>Name:</b>{{$property->name}}</h6>
     <p class="card-text"><b>Description:</b>{{$property->description}}</p>
     <a href="{{route('properties.show'
-,['property'=>$property->id])}}"   class="btn btn-primary">Details</a>
+,['property'=>$property->id])}}"   class="btn btn-outline-primary">Details >></a>
+<a href="{{route('properties.reservation'
+,['property'=>$property->id])}}"   class="btn btn-primary">Book property</a>
   </div>
 </div>
 

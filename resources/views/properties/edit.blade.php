@@ -2,7 +2,8 @@
 
 @section('content')
 <div class="container card">
-        <form action="{{ route('properties.update') }}" method="POST" enctype="multipart/form-data">
+
+        <form action="{{ route('properties.update',['property'=>$property->id]) }}" method="POST" enctype="multipart/form-data">
             @method('put')
             @csrf
             <div class="card-header">{{ __('Update Property') }}</div>

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Property;
+use App\Models\Reservation;
 use App\Models\User;
 use App\Models\Review;
 use App\Http\Requests\StorePropertyRequest;
+use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdatePropertyRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -58,7 +60,7 @@ class PropertyController extends Controller
 
 
 
- return view('properties.index', ['properties' => $properties->paginate(8)]);
+ return view('properties.index', ['properties' => $properties->paginate(10)->withQueryString()]);
     }
 
 
@@ -162,7 +164,7 @@ if(Auth::user()->is_owner)
     {
         //
         if(Auth::user()->is_owner)
-        {return view('properties.edit');}
+        {return view('properties.edit',compact('property'));}
         else {return view('properties.accessDenied');}
 
 
@@ -196,7 +198,8 @@ if(Auth::user()->is_owner)
             $property->endDate=$request->endDate;
 
             $property->save();
-        return back();
+            return redirect()->route('properties.owner');
+
 
             }
 
@@ -219,6 +222,53 @@ if(Auth::user()->is_owner)
 
     }
 
+public function makeReservation(Property $property)
+{
+    return view("properties.reservation",compact('property'));
+}
 
+public function book(StoreReservationRequest $request,Property $property){
+    if(Auth::user()){
+        $userid=$request->user()->id;
+    }
+    else{$userid=null;}
+
+    //check availability of dates
+    $propertyStartDate=$property->startDate;
+    $propertyEndDate=$property->endDate;
+    $checkInDate=$request->check_in;
+    $checkOutDate=$request->check_out;
+
+    if(($checkInDate<$propertyStartDate)||($checkOutDate>$propertyEndDate)){
+        $availabilityError="Sorry ! The property is not available on these dates!";
+        return view("properties.reservation",compact('availabilityError','property'));
+
+    }
+    else {
+        $availability="Congrats !!! Property is booked for the dates $checkInDate - $checkOutDate.";
+
+
+
+
+    Reservation::create([
+        'fullname'=>$request->fullname,
+        'email'=>$request->email,
+        'check_in'=>$request->check_in,
+        'check_out'=>$request->check_out,
+        'number_of_people'=>$request->number_of_people,
+        'property_id'=>$property->id,
+        'user_id'=>$userid,
+
+
+
+
+
+    ]);
+    return view("properties.reservation",compact('availability','property'));
+    }
+
+
+
+}
 
 }

@@ -50,4 +50,7 @@ class User extends Authenticatable
     public static function getNameById($id){
         return User::where('id', $id)->pluck('name')->first();
     }
+    public function reservations(){
+        return $this->hasMany(Reservation::class,"property_id","id");
+    }
 }

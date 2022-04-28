@@ -17,8 +17,13 @@
     <li class="list-group-item"><b>Price :</b> {{$property->price}} $</li>
   </ul>
   <div class="card-body">
+  <a href="{{route('properties.reservation'
+,['property'=>$property->id])}}"   class="btn btn-primary">Book property</a>
+<br><br>
     <a href="{{route('properties.index'
 )}}" class="card-link">Go to All properties</a>
+
+
 
   </div>
     </div>
@@ -28,11 +33,13 @@
       @if(count($reviews)==0)
       <div class="text-center">
       <h3 class="mb-4">No reviews yet</h3>
+      <hr>
     </div>
     @else
 
     <div class="text-center">
       <h3 class="mb-4">Reviews</h3>
+      <hr>
     </div>
     </div>
 
@@ -45,14 +52,16 @@
           class="rounded-circle shadow-1-strong" width="150" height="150" />
       </div>
       <i>Review by </i>
-      <h5 class="mb-3"> <b>{{ App\Models\User::getNameByID($review->user_id)}}</b></h5>
+     <b>{{ App\Models\User::getNameByID($review->user_id)}}</b>
+     <br><br>
 
       <p class="px-xl-3">
-        <i class="fas fa-quote-left pe-2">{{$review->content}}</i>
+        <p class="fas fa-quote-left pe-2">{{$review->content}}</p>
       </p>
+      <i class="fas fa-quote-left pe-2">Created at {{$review->created_at}}</i>
     </div>
 
-      <br><br>
+      <br><br><hr>
       @endforeach
   </div>
   @endif
