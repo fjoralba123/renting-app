@@ -9,6 +9,8 @@
 </style>
 
 <form method="get" action="{{ route('properties.index') }}">
+
+
 <div class="d-flex align-items-center">
 <div class="d-inline-block">
 <label >Start Date:&nbsp; </label>
@@ -26,15 +28,7 @@
     </div>
     </div>
 <br>
-<!-- <div class="input-group mb-3">
 
-  <select class="custom-select" id="priceRange" name="price">
-    <option selected >Price Range</option>
-    <option value="99">less than 100</option>
-    <option value="100">100-1000</option>
-    <option value="1001">more than 1000</option>
-  </select>
-</div> -->
 <div class="d-flex align-items-center">
 <div class="d-inline-block">
 <label >Lowest Price :&nbsp; </label>
@@ -52,7 +46,7 @@
 Filter by location:<input type="text" name="address"  value="{{Request::get('address')}}" placeholder="Location">
 <button type="submit" class="btn btn-primary" name="search" >Search</button>
 <br>
-<br>
+<br> 
 
     </form>
 
@@ -66,8 +60,12 @@ Filter by location:<input type="text" name="address"  value="{{Request::get('add
     <p class="card-text"><b>Description:</b>{{$property->description}}</p>
     <a href="{{route('properties.show'
 ,['property'=>$property->id])}}"   class="btn btn-outline-primary">Details >></a>
+@cannot('host')
+
 <a href="{{route('properties.reservation'
 ,['property'=>$property->id])}}"   class="btn btn-primary">Book property</a>
+
+@endcannot
   </div>
 </div>
 

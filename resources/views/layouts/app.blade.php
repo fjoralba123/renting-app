@@ -37,16 +37,16 @@
                                     <a class="nav-link" href="{{ route('properties.index') }}">{{ __('All properties') }}</a>
                                 </li>
 
-                                @auth
-                                @if(Auth::user()->is_owner )
+                                @can('host')
+
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('properties.create') }}">{{ __('Create') }}</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('properties.owner') }}">{{ __('My properties') }}</a>
                                 </li>
-                                @endif
-                                @endauth
+
+                                @endcan
 
                     </ul>
 

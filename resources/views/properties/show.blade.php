@@ -25,11 +25,31 @@
 
 
 
+
+
   </div>
     </div>
 
     <div style="width: 30rem; ">
   <div >
+      @can('makeReview',$property)
+      <!-- review form -->
+<form method="post" action="{{route('properties.review'
+,['property'=>$property->id])}}">
+@csrf
+@method('put')
+    <label for="content" >Your review</label><br>
+<textarea cols="40" rows="4" name="content" id="content" class="form-control">Leave a review</textarea>
+@error('content')
+                <span class="invalid-feedback d-block" role="alert"> {{$message}}</span>
+  @enderror
+<button type="submit" class="btn btn-primary">Post review</button>
+
+</form>
+@endcan
+
+
+<!-- end review form -->
       @if(count($reviews)==0)
       <div class="text-center">
       <h3 class="mb-4">No reviews yet</h3>
@@ -38,6 +58,7 @@
     @else
 
     <div class="text-center">
+
       <h3 class="mb-4">Reviews</h3>
       <hr>
     </div>

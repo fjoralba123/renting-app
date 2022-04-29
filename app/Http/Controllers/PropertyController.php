@@ -7,11 +7,13 @@ use App\Models\Reservation;
 use App\Models\User;
 use App\Models\Review;
 use App\Http\Requests\StorePropertyRequest;
+use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdatePropertyRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 
 class PropertyController extends Controller
@@ -85,9 +87,9 @@ class PropertyController extends Controller
     {
         //
 
-if(Auth::user()->is_owner)
-        {return view('properties.create');}
-        else {return view('properties.accessDenied');}
+
+        return view('properties.create');
+
 
     }
 
@@ -129,15 +131,15 @@ if(Auth::user()->is_owner)
 
 
     public function getPropertiesByOwner(){
-        //only logged
+
              //dd(request()->user()->properties);
-             if(Auth::user()->is_owner)
-        {
+
+
 
             return view('properties.propertiesByOwner',['properties'=>request()->user()->properties()->paginate(2)]);
 
+
         }
-        else {return view('properties.accessDenied');}}
     /**
      * Display the specified resource.
      *
@@ -148,7 +150,7 @@ if(Auth::user()->is_owner)
     {
         //
         $reviews=Review::query()
-        ->where('property_id','=',$property->id)->get();
+        ->where('property_id','=',$property->id)->orderBy('created_at','DESC' )->get();
 
 
         return view('properties.show',compact('property','reviews'));
@@ -163,9 +165,9 @@ if(Auth::user()->is_owner)
     public function edit(Property $property)
     {
         //
-        if(Auth::user()->is_owner)
-        {return view('properties.edit',compact('property'));}
-        else {return view('properties.accessDenied');}
+
+        return view('properties.edit',compact('property'));
+   
 
 
     }
@@ -224,14 +226,14 @@ if(Auth::user()->is_owner)
 
 public function makeReservation(Property $property)
 {
+    if (Gate::allows('simpleUser')) {
     return view("properties.reservation",compact('property'));
+}
+else {return redirect()->route('login');}
 }
 
 public function book(StoreReservationRequest $request,Property $property){
-    if(Auth::user()){
-        $userid=$request->user()->id;
-    }
-    else{$userid=null;}
+
 
     //check availability of dates
     $propertyStartDate=$property->startDate;
@@ -257,18 +259,26 @@ public function book(StoreReservationRequest $request,Property $property){
         'check_out'=>$request->check_out,
         'number_of_people'=>$request->number_of_people,
         'property_id'=>$property->id,
-        'user_id'=>$userid,
-
-
-
-
-
-    ]);
+        'user_id'=>$userid=$request->user()->id,
+      ]);
     return view("properties.reservation",compact('availability','property'));
     }
 
-
-
 }
+
+
+    //create review
+
+    public function storeReview(Property $property, StoreReviewRequest $request){
+
+        Review::create([
+            'property_id'=>$property->id,
+            'user_id'=>$request->user()->id,
+            'content'=>$request->content,
+        ]);
+        $reviews=Review::query()
+        ->where('property_id','=',$property->id)->orderBy('created_at','DESC' )->get();
+        return view('properties.show',compact('property','reviews'));
+    }
 
 }

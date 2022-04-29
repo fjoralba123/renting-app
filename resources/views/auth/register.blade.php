@@ -61,11 +61,13 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end"></label>
+                            <label for="role" class="col-md-4 col-form-label text-md-end">Choose user type</label>
 
                         <div class="col-md-6">
-                        <input type="hidden" name="is_owner" value="0" />
-                            <input type="checkbox" name="is_owner" value="1">Register as owner
+                       <select name="role" id="role" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                            <option name="is_owner" value="simpleuser" selected>simple user</option>
+                            <option name="is_owner" value="host">host</option>
+</select>
 </div>
 </div>
                         <div class="row mb-0">

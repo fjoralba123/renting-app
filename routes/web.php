@@ -25,11 +25,15 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['middleware'=>['auth']],function(){
 Route::post('properties', [PropertyController::class, 'store'])->name('properties.store');
 Route::put('properties/{property}', [PropertyController::class, 'update'])->name('properties.update');
-Route::get('properties/create', [PropertyController::class, 'create'])->name('properties.create');
-Route::get('users/properties', [PropertyController::class, 'getPropertiesByOwner'])->name('properties.owner');
+Route::get('properties/create', [PropertyController::class, 'create'])->name('properties.create')->middleware('host');;
+Route::get('users/properties', [PropertyController::class, 'getPropertiesByOwner'])->name('properties.owner')->middleware('host');
 Route::delete('properties/{property}', [PropertyController::class, 'destroy'])->name('properties.destroy');
-Route::get('properties/edit/{property}', [PropertyController::class, 'edit'])->name('properties.edit');
+Route::get('properties/edit/{property}', [PropertyController::class, 'edit'])->name('properties.edit')->middleware('host');
 Route::post('properties', [PropertyController::class, 'store'])->name('properties.store');
+Route::put('properties/{property}', [PropertyController::class, 'storeReview'])->name('properties.review');
+Route::get('properties/reservation/{property}', [PropertyController::class, 'makeReservation'])->name('properties.reservation')->middleware('simpleuser');
+Route::post('properties/{property}', [PropertyController::class, 'book'])->name('properties.book');
+
 
 
 });
@@ -37,8 +41,7 @@ Route::post('properties', [PropertyController::class, 'store'])->name('propertie
 
 Route::get('properties', [PropertyController::class, 'index'])->name('properties.index');
 Route::get('properties/{property}', [PropertyController::class, 'show'])->name('properties.show');
-Route::get('properties/reservation/{property}', [PropertyController::class, 'makeReservation'])->name('properties.reservation');
-Route::post('properties/{property}', [PropertyController::class, 'book'])->name('properties.book');
+
 
 
 
